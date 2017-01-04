@@ -21,8 +21,9 @@
 
 @end
 
-static NSString * const identifier = @"HorizontalPageCell";
 @implementation ViewController
+
+static NSString * const identifier = @"HorizontalPageCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,22 +35,25 @@ static NSString * const identifier = @"HorizontalPageCell";
 #pragma mark - Lazy
 - (UICollectionView *)collectionView
 {
-    if (!_collectionView) {   
+    if (!_collectionView) {
         
-//        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        HorizontalPageFlowlayout *layout = [[HorizontalPageFlowlayout alloc] initWithRowCount:3 itemCountPerRow:5];
+        /** -----1.使用苹果提供的的UICollectionViewFlowLayout布局----- */
+        // UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+
+        /** -----2.使用自定义的的HorizontalPageFlowlayout布局----- */
+        HorizontalPageFlowlayout *layout = [[HorizontalPageFlowlayout alloc] initWithRowCount:2 itemCountPerRow:4];
         [layout setColumnSpacing:10 rowSpacing:15 edgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
         
-        // 注意,此处设置的item的尺寸是理论值，实际是由行列间距、collectionView的内边距和宽高决定
-        layout.itemSize = CGSizeMake(ScreenWidth / 5, 60);
+        /** 注意,此处设置的item的尺寸是理论值，实际是由行列间距、collectionView的内边距和宽高决定 */
+        // layout.itemSize = CGSizeMake(ScreenWidth / 4, 60);
         layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth, 200) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150) collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor yellowColor];
         _collectionView.bounces = YES;
-        _collectionView.pagingEnabled = YES; 
+        _collectionView.pagingEnabled = YES;
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HorizontalPageCell class]) bundle:nil] forCellWithReuseIdentifier:identifier];
@@ -65,7 +69,7 @@ static NSString * const identifier = @"HorizontalPageCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 19;
+    return 13;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -77,5 +81,6 @@ static NSString * const identifier = @"HorizontalPageCell";
     
     return cell;
 }
+
 
 @end
