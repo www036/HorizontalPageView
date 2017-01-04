@@ -108,15 +108,16 @@
 /** 设置每个item的属性(主要是frame) */
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    // item的宽高由行列间距和collectionView的内边距决定
+    CGFloat itemWidth = (self.collectionView.frame.size.width - self.edgeInsets.left - self.itemCountPerRow * self.columnSpacing) / self.itemCountPerRow;
+    CGFloat itemHeight = (self.collectionView.frame.size.height - self.edgeInsets.top - self.edgeInsets.bottom - (self.rowCount - 1) * self.rowSpacing) / self.rowCount;
+    
     NSInteger item = indexPath.item;
     // 当前item所在的页
     NSInteger pageNumber = item / (self.rowCount * self.itemCountPerRow);
     NSInteger x = item % self.itemCountPerRow + pageNumber * self.itemCountPerRow;
     NSInteger y = item / self.itemCountPerRow - pageNumber * self.rowCount;
     
-    // item的宽高由行列间距和collectionView的内边距决定
-    CGFloat itemWidth = (self.collectionView.frame.size.width - self.edgeInsets.left - self.itemCountPerRow * self.columnSpacing) / self.itemCountPerRow;
-    CGFloat itemHeight = (self.collectionView.frame.size.height - self.edgeInsets.top - self.edgeInsets.bottom - (self.rowCount - 1) * self.rowSpacing) / self.rowCount;
     // 计算出item的坐标
     CGFloat itemX = self.edgeInsets.left + (itemWidth + self.columnSpacing) * x;
     CGFloat itemY = self.edgeInsets.top + (itemHeight + self.rowSpacing) * y;
